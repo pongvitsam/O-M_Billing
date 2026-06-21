@@ -1,8 +1,9 @@
-/** ตั้งค่า URL ของ GAS Web App (Deploy > New deployment > Web app > Anyone) */
+/** PEA NEXUS — GitHub Pages config (Supabase backend) */
 window.PEA_NEXUS_CONFIG = {
-  /** ใส่ URL ลงท้าย /exec หลัง deploy — ตัวอย่าง:
-   *  https://script.google.com/macros/s/AKfycb.../exec
-   */
-  GAS_URL: 'https://script.google.com/macros/s/AKfycbx3hzCOcymi1MC9MP1TVBd6Zmt8bvZ4JodWXgQcTJM/exec',
+  SUPABASE_URL: 'https://nnsxyuhiwgrqbszrhyiz.supabase.co',
+  /** anon / publishable key — ใช้เรียก Edge Functions เท่านั้น */
+  SUPABASE_ANON_KEY: 'sb_publishable_qMqdfCN5EcUiBh1zNcBVBQ_G-qmeQx5',
+  /** Edge Function API endpoint */
+  API_URL: 'https://nnsxyuhiwgrqbszrhyiz.supabase.co/functions/v1/api',
   GITHUB_PAGES_URL: 'https://pongvitsam.github.io/O-M_Billing/'
 };
