@@ -11,9 +11,17 @@
   var API_URL = cfg.API_URL || '';
   var ANON_KEY = cfg.SUPABASE_ANON_KEY || '';
 
-  function parseResponse(text) {
-    if (!text) return null;
-    try { return JSON.parse(text); } catch (e) { return text; }
+  function parseResponse(text, httpStatus) {
+    if (!text) return { status: 'error', message: 'Empty response (HTTP ' + httpStatus + ')' };
+    var parsed;
+    try { parsed = JSON.parse(text); } catch (e) { return { status: 'error', message: text }; }
+    if (httpStatus >= 400 && (!parsed || parsed.status !== 'success')) {
+      return {
+        status: 'error',
+        message: (parsed && (parsed.message || parsed.error || parsed.code)) || ('HTTP ' + httpStatus),
+      };
+    }
+    return parsed;
   }
 
   function callApi(fn, args, onSuccess, onFailure) {
@@ -32,9 +40,19 @@
       },
       body: JSON.stringify({ fn: fn, args: args || [] })
     })
-    .then(function(res) { return res.text(); })
-    .then(function(text) {
-      if (onSuccess) onSuccess(parseResponse(text));
+    .then(function(res) {
+      return res.text().then(function(text) {
+        return { text: text, status: res.status, ok: res.ok };
+      });
+    })
+    .then(function(result) {
+      var data = parseResponse(result.text, result.status);
+      if (data && data.status === 'error') {
+        if (onFailure) onFailure(data.message || 'API error');
+        else if (onSuccess) onSuccess(data);
+        return;
+      }
+      if (onSuccess) onSuccess(data);
     })
     .catch(function(err) {
       if (onFailure) onFailure(err && err.message ? err.message : String(err));
@@ -43,29 +61,31 @@
 
   function createRunner() {
     var handlers = { success: null, failure: null };
-    var proxy = {};
+    var target = {};
 
-    proxy.withSuccessHandler = function(fn) {
+    target.withSuccessHandler = function(fn) {
       handlers.success = fn;
-      return proxy;
+      return runner;
     };
-    proxy.withFailureHandler = function(fn) {
+    target.withFailureHandler = function(fn) {
       handlers.failure = fn;
-      return proxy;
+      return runner;
     };
 
-    return new Proxy(proxy, {
-      get: function(target, prop) {
-        if (prop === 'withSuccessHandler' || prop === 'withFailureHandler') {
-          return target[prop];
-        }
+    var runner = new Proxy(target, {
+      get: function(_t, prop) {
+        if (prop === 'withSuccessHandler') return target.withSuccessHandler;
+        if (prop === 'withFailureHandler') return target.withFailureHandler;
         if (prop === '__peaRemote') return true;
+        if (prop === 'then' || prop === 'catch' || typeof prop === 'symbol') return undefined;
         return function() {
           var args = Array.prototype.slice.call(arguments);
           callApi(String(prop), args, handlers.success, handlers.failure);
         };
       }
     });
+
+    return runner;
   }
 
   window.google = window.google || {};
