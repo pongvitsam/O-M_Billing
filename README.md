@@ -1,23 +1,13 @@
 # O-M_Billing — PEA NEXUS Frontend (GitHub Pages)
 
-Frontend สำหรับระบบบำรุงรักษาและติดตามค่าจัดการพลังงาน
+Frontend เรียก **Supabase Edge Functions** แทน Google Apps Script
 
 ## URL
 
 - **Frontend:** https://pongvitsam.github.io/O-M_Billing/
-- **Backend API:** Google Apps Script (Supabase)
+- **API:** `https://nnsxyuhiwgrqbszrhyiz.supabase.co/functions/v1/api`
 
-## โครงสร้าง
-
-```
-docs/
-  index.html      ← หน้าแอป (build จาก PEA_NEXUS)
-  js/
-    config.js     ← ตั้งค่า GAS_URL
-    gas-bridge.js ← polyfill google.script.run ผ่าน fetch
-```
-
-## Build ใหม่ (จากโปรเจกต GAS)
+## Build ใหม่
 
 ```bash
 cd PEA_NEXUS
@@ -27,4 +17,4 @@ node scripts/build-pages.mjs
 
 ## GitHub Pages
 
-Settings → Pages → Source: **Deploy from branch** → Branch: `main` → Folder: **`/docs`**
+Settings → Pages → Branch: `main`, Folder: `/docs`
