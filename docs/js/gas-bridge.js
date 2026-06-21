@@ -10,16 +10,23 @@
   var cfg = window.PEA_NEXUS_CONFIG || {};
   var GAS_URL = cfg.GAS_URL || '';
 
-  function parseGasResponse(text, httpStatus) {
-    if (!text) return { status: 'error', message: 'Empty response (HTTP ' + httpStatus + ')' };
-    try { return JSON.parse(text); } catch (e) { return { status: 'error', message: text }; }
+  function notifyFailure(onFailure, msg) {
+    if (!onFailure) return;
+    if (msg && typeof msg === 'object' && msg.message) {
+      onFailure(msg);
+      return;
+    }
+    onFailure({ message: String(msg || 'Unknown error') });
+  }
+
+  function parseGasResponse(text) {
+    if (!text) return null;
+    try { return JSON.parse(text); } catch (e) { return null; }
   }
 
   function callGas(fn, args, onSuccess, onFailure) {
     if (!GAS_URL || GAS_URL.indexOf('YOUR_DEPLOYMENT_ID') >= 0) {
-      var msg = 'ยังไม่ได้ตั้งค่า GAS_URL ใน docs/js/config.js — deploy GAS แล้วใส่ URL /exec';
-      if (onFailure) onFailure(msg);
-      else console.error(msg);
+      notifyFailure(onFailure, 'ยังไม่ได้ตั้งค่า GAS_URL ใน docs/js/config.js — deploy GAS แล้วใส่ URL /exec');
       return;
     }
     fetch(GAS_URL, {
@@ -30,20 +37,24 @@
     })
     .then(function(res) {
       return res.text().then(function(text) {
-        return { text: text, status: res.status };
+        return { text: text, status: res.status, ok: res.ok };
       });
     })
     .then(function(result) {
-      var data = parseGasResponse(result.text, result.status);
-      if (data && data.status === 'error') {
-        if (onFailure) onFailure(data.message || 'GAS error');
-        else if (onSuccess) onSuccess(data);
+      if (!result.ok && !result.text) {
+        notifyFailure(onFailure, 'HTTP ' + result.status);
         return;
       }
+      var data = parseGasResponse(result.text);
+      if (!data) {
+        notifyFailure(onFailure, 'Invalid response from server (HTTP ' + result.status + ')');
+        return;
+      }
+      // เหมือน google.script.run จริง: ส่ง JSON ทั้งหมดไป success handler
       if (onSuccess) onSuccess(data);
     })
     .catch(function(err) {
-      if (onFailure) onFailure(err && err.message ? err.message : String(err));
+      notifyFailure(onFailure, err && err.message ? err.message : String(err));
     });
   }
 
