@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2",
+    "@noble/hashes/sha256": "npm:@noble/hashes@1.4.0/sha256.js"
+  }
+}

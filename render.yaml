@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: pea-nexus-api
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build:api
+    startCommand: node server/dist/handler.mjs
+    envVars:
+      - key: SUPABASE_URL
+        value: https://nnsxyuhiwgrqbszrhyiz.supabase.co
+      - key: NODE_VERSION
+        value: 20

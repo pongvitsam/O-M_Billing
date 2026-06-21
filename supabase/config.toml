@@ -1,0 +1,10 @@
+project_id = "nnsxyuhiwgrqbszrhyiz"
+
+[api]
+enabled = true
+
+[functions.api]
+verify_jwt = false
+
+[functions.heartbeat]
+verify_jwt = false
