@@ -2,9 +2,11 @@
 window.PEA_NEXUS_CONFIG = {
   SUPABASE_URL: 'https://nnsxyuhiwgrqbszrhyiz.supabase.co',
   SUPABASE_ANON_KEY: 'sb_publishable_qMqdfCN5EcUiBh1zNcBVBQ_G-qmeQx5',
-  /** Node/Vercel API (primary) — deploy: vercel.com → import O-M_Billing repo */
-  API_URL: 'https://o-m-billing.vercel.app/api/pea',
-  /** Supabase Edge Function (backup) — deploy: supabase functions deploy api */
+  /** Production API (Cloudflare Workers) */
+  API_URL: 'https://pea-nexus-api.surf-alloy-4b8.workers.dev',
+  /** Fallback: Supabase Edge Function */
   API_URL_SUPABASE: 'https://nnsxyuhiwgrqbszrhyiz.supabase.co/functions/v1/api',
+  /** Fallback: Vercel */
+  API_URL_VERCEL: 'https://o-m-billing.vercel.app/api/pea',
   GITHUB_PAGES_URL: 'https://pongvitsam.github.io/O-M_Billing/'
 };
