@@ -1,5 +1,5 @@
 /**
- * Polyfill google.script.run — GitHub Pages → Supabase/Vercel API
+ * Polyfill google.script.run — GitHub Pages → Supabase Edge Functions
  */
 (function() {
   if (typeof google !== 'undefined' && google.script && google.script.run &&
@@ -8,8 +8,7 @@
   }
 
   var cfg = window.PEA_NEXUS_CONFIG || {};
-  var PRIMARY_URL = cfg.API_URL || '';
-  var FALLBACK_URL = cfg.API_URL_SUPABASE || '';
+  var API_URL = cfg.API_URL || '';
   var ANON_KEY = cfg.SUPABASE_ANON_KEY || '';
 
   function parseResponse(text) {
@@ -17,15 +16,14 @@
     try { return JSON.parse(text); } catch (e) { return text; }
   }
 
-  function callApi(fn, args, onSuccess, onFailure, urlOverride) {
-    var url = urlOverride || PRIMARY_URL || FALLBACK_URL;
-    if (!url) {
-      var msg = 'ยังไม่ได้ตั้งค่า API_URL ใน docs/js/config.js';
+  function callApi(fn, args, onSuccess, onFailure) {
+    if (!API_URL) {
+      var msg = 'ยังไม่ได้ตั้งค่า API_URL — deploy Supabase Edge Function ก่อน';
       if (onFailure) onFailure(msg);
       else console.error(msg);
       return;
     }
-    fetch(url, {
+    fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,19 +34,9 @@
     })
     .then(function(res) { return res.text(); })
     .then(function(text) {
-      var data = parseResponse(text);
-      if (!urlOverride && FALLBACK_URL && url !== FALLBACK_URL &&
-          (data == null || (typeof data === 'object' && data.status === 'error'))) {
-        callApi(fn, args, onSuccess, onFailure, FALLBACK_URL);
-        return;
-      }
-      if (onSuccess) onSuccess(data);
+      if (onSuccess) onSuccess(parseResponse(text));
     })
     .catch(function(err) {
-      if (!urlOverride && FALLBACK_URL && url !== FALLBACK_URL) {
-        callApi(fn, args, onSuccess, onFailure, FALLBACK_URL);
-        return;
-      }
       if (onFailure) onFailure(err && err.message ? err.message : String(err));
     });
   }

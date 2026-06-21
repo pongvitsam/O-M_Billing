@@ -1,8 +1,0 @@
-{
-  "name": "o-m-billing-api",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "start": "node api/pea.mjs"
-  }
-}
