@@ -198,6 +198,27 @@
       background: linear-gradient(90deg, rgba(120, 53, 15, 0.35) 0%, rgba(15, 23, 42, 0) 100%);
     }
 
+    /* Sidebar alert count — ไม่ใช้ Tailwind hidden/inline-flex คู่กัน */
+    .sidebar-alert-badge {
+      display: none;
+      min-width: 1.25rem;
+      height: 1.25rem;
+      padding: 0 0.375rem;
+      border-radius: 9999px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 1;
+      box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.35);
+    }
+    .sidebar-alert-badge.is-on {
+      display: inline-flex !important;
+    }
+
     .map-place-suggest-item { cursor: pointer; }
     .map-place-suggest-active { background: rgba(219, 234, 254, 0.95); }
     html.dark .map-place-suggest-active { background: rgba(51, 65, 85, 0.95); }
@@ -229,14 +250,14 @@
     </div>
     
     <nav class="flex-1 overflow-y-auto py-6 flex flex-col gap-2 px-4 relative z-10">
-      <button onclick="window.switchTab('dashboard')" id="tabDash" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-chart-pie w-5 text-center"></i> ผู้บริหาร (Dashboard)</button>
-      <button onclick="window.switchTab('tracking')" id="tabTracking" class="sidebar-item sidebar-active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm hover:bg-white/5"><i class="fa-regular fa-calendar-check w-5 text-center"></i> แจ้งหน่วยค่าจัดการพลังงาน</button>
-      <button onclick="window.switchTab('maintenance')" id="tabMaint" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-screwdriver-wrench w-5 text-center"></i> สถานะบำรุงรักษา</button>
+      <button onclick="window.switchTab('dashboard')" id="tabDash" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-chart-pie w-5 text-center shrink-0"></i><span class="flex-1">ผู้บริหาร (Dashboard)</span><span id="sidebarBadgeDash" class="sidebar-alert-badge">0</span></button>
+      <button onclick="window.switchTab('tracking')" id="tabTracking" class="sidebar-item sidebar-active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm hover:bg-white/5"><i class="fa-regular fa-calendar-check w-5 text-center shrink-0"></i><span class="flex-1">แจ้งหน่วยค่าจัดการพลังงาน</span><span id="sidebarBadgeTracking" class="sidebar-alert-badge">0</span></button>
+      <button onclick="window.switchTab('maintenance')" id="tabMaint" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-screwdriver-wrench w-5 text-center shrink-0"></i><span class="flex-1">สถานะบำรุงรักษา</span><span id="sidebarBadgeMaint" class="sidebar-alert-badge">0</span></button>
       <button onclick="window.switchTab('map')" id="tabMap" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-map-location-dot w-5 text-center"></i> พิกัดสถานที่ตั้ง</button>
       <button onclick="window.switchTab('list')" id="tabList" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-database w-5 text-center"></i> ฐานข้อมูลโครงการ</button>
       <button onclick="window.switchTab('inspector')" id="tabInspector" class="auth-required hidden sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-clipboard-user w-5 text-center"></i> จัดการผู้ตรวจ</button>
       <button onclick="window.switchTab('deptVault')" id="tabDeptVault" class="sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-folder-open w-5 text-center"></i> ข้อมูลแผนก</button>
-      <button onclick="window.switchTab('licenseRenewal')" id="tabLicenseRenewal" class="auth-required hidden sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-id-card-clip w-5 text-center"></i> <span class="flex-1">ต่ออายุใบอนุญาต</span><span id="licenseAlertBadge" class="hidden min-w-[1.25rem] h-5 px-1.5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center">0</span></button>
+      <button onclick="window.switchTab('licenseRenewal')" id="tabLicenseRenewal" class="auth-required hidden sidebar-item w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm text-royal-100 hover:bg-white/5"><i class="fa-solid fa-id-card-clip w-5 text-center shrink-0"></i><span class="flex-1">ต่ออายุใบอนุญาต</span><span id="licenseAlertBadge" class="sidebar-alert-badge">0</span></button>
       
       <div id="adminToolsSidebar" class="hidden mt-4 pt-4 border-t border-white/10 flex-col gap-2">
         <p class="text-[10px] text-royal-200 uppercase tracking-widest px-4 mb-1">เครื่องมือผู้ดูแลระบบ</p>
@@ -690,7 +711,7 @@
             </div>
             <div class="flex flex-wrap gap-2">
               <button type="button" id="btnLicenseTypeSettings" onclick="window.openLicenseTypeModal()" class="admin-only hidden bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2.5 rounded-xl text-sm font-bold border border-slate-200 dark:border-slate-600"><i class="fa-solid fa-sliders mr-1"></i> ตั้งประเภทใบอนุญาต</button>
-              <button type="button" onclick="window.openProjectLicenseModal()" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-3 rounded-2xl text-sm font-bold shadow-lg transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> เพิ่มใบอนุญาต</button>
+              <button type="button" onclick="window.openProjectLicenseModal()" class="license-editor-only hidden bg-amber-500 hover:bg-amber-600 text-white px-5 py-3 rounded-2xl text-sm font-bold shadow-lg transition flex items-center gap-2"><i class="fa-solid fa-plus"></i> เพิ่มใบอนุญาต</button>
             </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
@@ -1081,12 +1102,12 @@
       </div>
       <form onsubmit="window.handleSaveProjectLicense(event)" class="space-y-4 text-sm">
         <input type="hidden" id="plEditId">
-        <div>
+        <div class="overflow-visible">
           <label class="font-bold block mb-1 text-xs uppercase">โครงการ</label>
-          <div id="plProjectSearchWrap" class="relative">
-            <input type="text" id="plProjectSearch" autocomplete="off" placeholder="พิมพ์ชื่อโครงการ..." oninput="window.onPlProjectSearchInput()" onkeydown="window.onPlProjectSearchKeydown(event)" onfocus="window.onPlProjectSearchFocus()" class="w-full p-3 border border-slate-200 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white outline-none focus:border-amber-500">
+          <div id="plProjectSearchWrap" class="relative overflow-visible">
+            <input type="text" id="plProjectSearch" autocomplete="off" placeholder="พิมพ์ชื่อโครงการ..." oninput="window.onPlProjectSearchInput()" onkeydown="window.onPlProjectSearchKeydown(event)" onfocus="window.onPlProjectSearchFocus()" onclick="window.onPlProjectSearchFocus()" oncompositionend="window.onPlProjectSearchInput()" class="w-full p-3 border border-slate-200 dark:border-slate-600 rounded-xl dark:bg-slate-700 dark:text-white outline-none focus:border-amber-500">
             <input type="hidden" id="plProjectId">
-            <div id="plProjectSuggestions" class="hidden absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg" role="listbox" aria-label="รายการโครงการ"></div>
+            <div id="plProjectSuggestions" class="hidden mt-2 w-full min-h-[3rem] max-h-60 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg" role="listbox" aria-label="รายการโครงการ"></div>
           </div>
           <p class="text-[10px] text-slate-400 mt-1">พิมพ์ชื่อโครงการแล้วเลือกจากรายการ · โครงการที่เข้าถึงได้เท่านั้น</p>
         </div>
@@ -1579,6 +1600,7 @@ document.addEventListener("DOMContentLoaded", function() {
       setTimeout(function() { if (typeof window.applyRBAC === 'function') window.applyRBAC(); }, 0);
     }
     if (typeof window.initSidebarPreference === 'function') window.initSidebarPreference();
+    if (typeof window.ensureSidebarAlertBadges_ === 'function') window.ensureSidebarAlertBadges_();
     window.ensureDeptVaultNav();
     window.restoreUserSession(function() {
       if (typeof window.initSessionTimeout === 'function') window.initSessionTimeout();
@@ -1627,14 +1649,49 @@ document.addEventListener("DOMContentLoaded", function() {
       if (!fp || !fp.currentYearElement) return;
       let buddhistYear = fp.currentYear + 543;
       fp.currentYearElement.value = buddhistYear;
-      if(fp.calendarContainer) {
-          let yearInputs = fp.calendarContainer.querySelectorAll('.numInput.cur-year');
-          yearInputs.forEach(input => { input.value = buddhistYear; });
+      if (fp.calendarContainer) {
+        fp.calendarContainer.querySelectorAll('.numInput.cur-year').forEach(function(input) {
+          input.value = buddhistYear;
+        });
       }
     };
-    
+
+    window._bindThaiYearInput = function(fp) {
+      if (!fp || !fp.currentYearElement || fp._thaiYearInputBound) return;
+      fp._thaiYearInputBound = true;
+      var syncBeYear = function() {
+        var y = parseInt(fp.currentYearElement.value, 10);
+        if (!isNaN(y) && y > 2400 && y !== fp.currentYear + 543) fp.changeYear(y - 543);
+        window._setThaiYear(fp);
+      };
+      fp.currentYearElement.addEventListener('input', function() { window._setThaiYear(fp); });
+      fp.currentYearElement.addEventListener('blur', syncBeYear);
+      fp.currentYearElement.addEventListener('change', syncBeYear);
+    };
+
     window._adjustYearDisplay = function(selectedDates, dateStr, instance) {
-      setTimeout(() => window._setThaiYear(instance || this), 10);
+      var fp = instance || this;
+      if (!fp || typeof fp !== 'object') return;
+      var run = function() {
+        window._setThaiYear(fp);
+        window._bindThaiYearInput(fp);
+      };
+      run();
+      setTimeout(run, 0);
+      setTimeout(run, 30);
+      setTimeout(run, 100);
+    };
+
+    window._fpThaiDateHooks = {
+      onReady: window._adjustYearDisplay,
+      onOpen: window._adjustYearDisplay,
+      onYearChange: window._adjustYearDisplay,
+      onMonthChange: window._adjustYearDisplay
+    };
+
+    window._fpFormatDateTH = function(date, format, locale) {
+      if (format === 'TH') return String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + (date.getFullYear() + 543);
+      return flatpickr.formatDate(date, format, locale);
     };
 
     window._thMonthsFull = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
@@ -1671,6 +1728,7 @@ document.addEventListener("DOMContentLoaded", function() {
           window._adjustYearDisplay(selectedDates, dateStr, instance);
           if (instance.altInput) instance.altInput.className = el.className;
         },
+        onOpen: window._adjustYearDisplay,
         onYearChange: window._adjustYearDisplay,
         onMonthChange: window._adjustYearDisplay,
         formatDate: monthFormatDate
@@ -1696,12 +1754,9 @@ document.addEventListener("DOMContentLoaded", function() {
           let isMulti = el.classList.contains('date-multiple-th');
           let config = {
               altInput: true, altFormat: "TH", dateFormat: "Y-m-d",
-              onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
-              formatDate: function(date, format, locale) {
-                  if (format === "TH") return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear() + 543}`;
-                  return flatpickr.formatDate(date, format);
-              }
+              formatDate: window._fpFormatDateTH
           };
+          Object.assign(config, window._fpThaiDateHooks);
           if(isMulti) { config.mode = "multiple"; config.conjunction = ", "; }
           
           if(flatpickr.l10ns && flatpickr.l10ns.th) {
@@ -1722,26 +1777,18 @@ document.addEventListener("DOMContentLoaded", function() {
       }
   
   // สำหรับเลือกวันเดียว (เริ่มสัญญา, วันที่กำหนด)
-  flatpickr(".date-th", {
+  flatpickr(".date-th", Object.assign({
     altInput: true, altFormat: "TH", dateFormat: "Y-m-d",
-    onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
-    formatDate: function(date, format, locale) {
-      if (format === "TH") return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear() + 543}`;
-      return flatpickr.formatDate(date, format);
-    }
-  });
+    formatDate: window._fpFormatDateTH
+  }, window._fpThaiDateHooks));
 
   // สำหรับเลือกหลายวัน (วันที่เข้าปฏิบัติงานจริง)
-  flatpickr(".date-multiple-th", {
-    mode: "multiple", // เปลี่ยนเป็น "multiple" หรือ "range" ตามความเหมาะสม
+  flatpickr(".date-multiple-th", Object.assign({
+    mode: "multiple",
     altInput: true, altFormat: "TH", dateFormat: "Y-m-d",
-    conjunction: ", ", // ตัวคั่นระหว่างวัน
-    onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
-    formatDate: function(date, format, locale) {
-      if (format === "TH") return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear() + 543}`;
-      return flatpickr.formatDate(date, format);
-    }
-  });
+    conjunction: ", ",
+    formatDate: window._fpFormatDateTH
+  }, window._fpThaiDateHooks));
 
   window.initDashMonthPicker();
 };
@@ -1943,7 +1990,13 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     window.showModal = function(id) { const el = document.getElementById(id); if (!el) return; el.classList.remove('hidden'); el.classList.add('flex'); };
-    window.closeModal = function(id) { const el = document.getElementById(id); if (!el) return; el.classList.add('hidden'); el.classList.remove('flex'); };
+    window.closeModal = function(id) {
+      if (id === 'projectLicenseModal') window.hidePlProjectSuggestions();
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    };
     window.showLoadingOverlay = function(m) { Swal.fire({ title: m || "กำลังโหลด...", allowOutsideClick: false, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000', didOpen: function() { Swal.showLoading(); } }); };
     window.showToast = function(m) { Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: m, showConfirmButton: false, timer: 2000, background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#fff', color: document.documentElement.classList.contains('dark') ? '#fff' : '#000' }); };
 
@@ -2001,6 +2054,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById('sidebar').classList.add('-translate-x-full');
   document.getElementById('sidebarOverlay').classList.add('hidden');
 }
+      if (typeof window.updateSidebarAlertBadges === 'function') window.updateSidebarAlertBadges();
     };
 
     let allData = { projects: [], departments: [], statuses: {}, maintenance: [], maintWorkflows: [], logs: [], auditLogs: [], companies: [], cycleOverrides: {}, settings: {}, licenseTypes: [], projectLicenses: [], statusesPartial: false };
@@ -2087,6 +2141,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if(window.maintViewMode === 'list') window.renderMaintTable();
         else window.renderMaintCards();
         window.updateMaintWorkflowTabBanner();
+        if (typeof window.updateSidebarAlertBadges === 'function') window.updateSidebarAlertBadges();
     };
 
     window.getGlobalDeptFilterValue = function() {
@@ -2127,14 +2182,10 @@ document.addEventListener("DOMContentLoaded", function() {
       if (hint) hint.classList.toggle('hidden', mode !== 'range');
       const prevDates = el._flatpickr ? el._flatpickr.selectedDates.slice() : [];
       if (el._flatpickr) el._flatpickr.destroy();
-      const config = {
+      const config = Object.assign({
         altInput: true, altFormat: "TH", dateFormat: "Y-m-d",
-        onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
-        formatDate: function(date, format) {
-          if (format === "TH") return String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + (date.getFullYear() + 543);
-          return flatpickr.formatDate(date, format);
-        }
-      };
+        formatDate: window._fpFormatDateTH
+      }, window._fpThaiDateHooks);
       if (mode === 'range') config.mode = 'range';
       if (flatpickr.l10ns && flatpickr.l10ns.th) config.locale = flatpickr.l10ns.th;
       flatpickr(el, config);
@@ -2279,6 +2330,10 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       document.querySelectorAll('.admin-only').forEach(function(el) {
         if (isAdmin) el.classList.remove('hidden'); else el.classList.add('hidden');
+      });
+      document.querySelectorAll('.license-editor-only').forEach(function(el) {
+        if (role === 'admin' || role === 'editor') el.classList.remove('hidden');
+        else el.classList.add('hidden');
       });
       window.updateLicenseAlertBadge();
       if (typeof window.updateNotificationBadge === 'function') window.updateNotificationBadge();
@@ -2701,15 +2756,65 @@ document.addEventListener("DOMContentLoaded", function() {
       }).withFailureHandler(function() { window._logsFetchPending = false; }).getAllData({ logsOnly: true });
     };
 
+    window._viewVisible = function(viewId) {
+      var el = document.getElementById(viewId);
+      return el && !el.classList.contains('hidden');
+    };
+
+    window._patchProjectsByIds = function(ids, patch, cb) {
+      var idList = Array.isArray(ids) ? ids : String(ids || '').split(',');
+      var idSet = {};
+      idList.forEach(function(id) {
+        id = String(id || '').trim();
+        if (id) idSet[id] = true;
+      });
+      (allData.projects || []).forEach(function(p) {
+        if (idSet[p.ID]) {
+          Object.keys(patch).forEach(function(k) { p[k] = patch[k]; });
+        }
+      });
+      window._invalidateUniqueProjectsCache();
+      window.refreshAll();
+      if (typeof cb === 'function') cb();
+    };
+
     window.fetchData = function(cb, opts) {
       opts = opts || {};
-      let sysEl = document.getElementById('sysStatus'); if(sysEl && window.currentUser.role === 'guest') sysEl.innerHTML = "SYNCING...";
+      if (window._fetchDataTimer) clearTimeout(window._fetchDataTimer);
+      window._fetchDataCallbacks = window._fetchDataCallbacks || [];
+      if (typeof cb === 'function') window._fetchDataCallbacks.push(cb);
+
+      window._fetchDataTimer = setTimeout(function() {
+        window._fetchDataTimer = null;
+        if (window._fetchDataInFlight) {
+          window._fetchDataQueued = true;
+          return;
+        }
+        window._runFetchData(opts);
+      }, opts.immediate ? 0 : 120);
+    };
+
+    window._runFetchData = function(opts) {
+      opts = opts || {};
+      var callbacks = window._fetchDataCallbacks || [];
+      window._fetchDataCallbacks = [];
+      window._fetchDataInFlight = true;
+      let sysEl = document.getElementById('sysStatus');
+      if (sysEl && window.currentUser.role === 'guest') sysEl.innerHTML = "SYNCING...";
       google.script.run.withSuccessHandler(function(r) {
-        window._applyFetchResult(r, cb, false);
+        window._fetchDataInFlight = false;
+        window._applyFetchResult(r, null, !!(opts && opts.partial));
         window._fetchLogsInBackground();
         window._prefetchDeptVault();
+        callbacks.forEach(function(fn) { if (typeof fn === 'function') fn(); });
+        if (window._fetchDataQueued) {
+          window._fetchDataQueued = false;
+          window.fetchData(null, { immediate: true });
+        }
       }).withFailureHandler(function(err) {
-        if(sysEl) sysEl.innerHTML = "ERROR";
+        window._fetchDataInFlight = false;
+        window._fetchDataQueued = false;
+        if (sysEl) sysEl.innerHTML = "ERROR";
         console.error('fetchData failure:', err);
         Swal.fire('เชื่อมต่อไม่สำเร็จ', (err && err.message) || 'ไม่สามารถโหลดข้อมูลจากเซิร์ฟเวอร์', 'error');
       }).getAllData({ coreOnly: true });
@@ -2943,7 +3048,10 @@ document.addEventListener("DOMContentLoaded", function() {
             if (nameEl) nameEl.value = '';
             var allEl = document.getElementById('inspMgmtSelectAll');
             if (allEl) allEl.checked = false;
-            window.fetchData(function() { window.renderInspectorMgmt(dept); });
+            window._patchProjectsByIds(subIds, {
+              DefaultInspector: inspector,
+              inspector: inspector
+            }, function() { window.renderInspectorMgmt(dept); });
           })
           .withFailureHandler(function(err) {
             Swal.close();
@@ -2959,20 +3067,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.refreshAll = function() {
       window.applyRBAC();
-      window.renderCalendar();
-      window.refreshMaintView();
-      window.renderTable();
-      var vDash = document.getElementById('viewDashboard');
-      if (vDash && !vDash.classList.contains('hidden')) window.renderDashboard();
-      var viewInsp = document.getElementById('viewInspector');
-      if (viewInsp && !viewInsp.classList.contains('hidden')) window.renderInspectorMgmt();
-      var viewDv = document.getElementById('viewDeptVault');
-      if (viewDv && !viewDv.classList.contains('hidden') && !window.deptVaultLoading) window.renderDeptVault();
-      var viewLic = document.getElementById('viewLicenseRenewal');
-      if (viewLic && !viewLic.classList.contains('hidden')) window.renderLicenseRenewal();
+      if (window._viewVisible('viewTracking')) window.renderCalendar();
+      if (window._viewVisible('viewMaint')) window.refreshMaintView();
+      if (window._viewVisible('viewList')) window.renderTable();
+      if (window._viewVisible('viewDashboard')) window.renderDashboard();
+      if (window._viewVisible('viewInspector')) window.renderInspectorMgmt();
+      if (window._viewVisible('viewDeptVault') && !window.deptVaultLoading) window.renderDeptVault();
+      if (window._viewVisible('viewLicenseRenewal')) window.renderLicenseRenewal();
       window.updateLicenseAlertBadge();
       if (typeof window.updateNotificationBadge === 'function') window.updateNotificationBadge();
-      if(map && !document.getElementById('viewMap').classList.contains('hidden')) window.loadMapMarkers();
+      if (map && window._viewVisible('viewMap')) window.loadMapMarkers();
     };
 
     window._uniqueProjectsCache = null;
@@ -3460,8 +3564,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ฟังก์ชั่นดึงข้อมูลอัพเดทให้รองรับ Property ทุก Case 
     // ฟังก์ชั่นดึงข้อมูลอัพเดทให้รองรับ Property ทุก Case
-    window.getUniqueProjects = function() {
-      var contractFilter = document.getElementById('contractFilter') ? document.getElementById('contractFilter').value : 'all';
+    window.getUniqueProjects = function(opts) {
+      opts = opts || {};
+      var contractFilter = opts.ignoreContractFilter ? 'all' : (document.getElementById('contractFilter') ? document.getElementById('contractFilter').value : 'all');
       var cacheKey = String((allData.projects || []).length) + '|' + contractFilter;
       if (window._uniqueProjectsCache && window._uniqueProjectsCacheKey === cacheKey) return window._uniqueProjectsCache;
       let u = {};
@@ -4099,6 +4204,7 @@ document.addEventListener("DOMContentLoaded", function() {
         lst += '</div></div>';
       });
       document.getElementById('eventList').innerHTML = lst || '<div class="text-center text-sm mt-10 text-slate-400 dark:text-slate-500"><i class="fa-regular fa-calendar-check text-5xl mb-4 block opacity-30"></i>ไม่มีรายการในเวลานี้</div>';
+      if (typeof window.updateSidebarAlertBadges === 'function') window.updateSidebarAlertBadges();
       window._restoreScrollPositions(savedScroll);
     };
 
@@ -4358,7 +4464,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let htmlString = `
         <div class="maint-card-wrap w-full min-w-0" ${activeWfCard ? 'data-maint-wf-active="1" data-wf-id="' + window.esc(activeWfCard.WorkflowID) + '"' : ''}>
-        ${actionBtns.stripHtml || ''}
         <div class="maint-card bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 ${borderColor} shadow-sm p-6 flex flex-col hover:shadow-md transition duration-300 ${animationClass} w-full">
             <div class="maint-card-head shrink-0 mb-5 border-b border-slate-100 dark:border-slate-700 pb-4">
                 <div class="flex justify-between items-start gap-3">
@@ -4374,9 +4479,9 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
             <div class="maint-card-stats shrink-0 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div class="bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700 text-center min-h-[5.5rem] flex flex-col justify-center">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">ปีนี้ล้างแล้ว</p>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">รอบปีนี้ล้างแล้ว</p>
                     <p class="text-xl font-black text-royal-600 dark:text-royal-400">${washesThisYear} <span class="text-sm text-slate-400 font-medium">/ ${freqPerYear}</span></p>
-                    <p class="text-[9px] text-rose-600 dark:text-rose-400 font-bold mt-1">งวดรวม: ${totalWashesDone}/${totalExpectedRounds}</p>
+                    <p class="text-[9px] text-rose-600 dark:text-rose-400 font-bold mt-1">ล้างไปแล้วทั้งสิ้น(ครั้ง): ${totalWashesDone}/${totalExpectedRounds}</p>
                 </div>
                 <div class="bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700 text-center min-h-[5.5rem] flex flex-col justify-center">
                     <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">ควรล้างภายใน</p>
@@ -4434,8 +4539,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <tr>
                     <th class="px-4 py-3 w-10 text-center"><i class="fa-solid fa-list"></i></th>
                     <th class="px-4 py-3">ชื่อโครงการ / ระยะ (Phase)</th>
-                    <th class="px-4 py-3 text-center">ปีนี้ล้างแล้ว</th>
-                    <th class="px-4 py-3 text-center text-rose-600 dark:text-rose-400">งวดรวม</th>
+                    <th class="px-4 py-3 text-center">รอบปีนี้ล้างแล้ว</th>
+                    <th class="px-4 py-3 text-center text-rose-600 dark:text-rose-400">ล้างไปแล้วทั้งสิ้น(ครั้ง)</th>
                     <th class="px-4 py-3 text-center">ควรล้างภายใน</th>
                     <th class="px-4 py-3 text-center">สถานะ</th>
                     <th class="px-4 py-3 text-right">จัดการ</th>
@@ -4563,7 +4668,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <td class="px-4 py-3 text-center font-bold text-rose-600 dark:text-rose-400">${totalWashesDone} <span class="text-xs text-rose-400 dark:text-rose-500 font-medium">/ ${totalExpectedRounds}</span></td>
             <td class="px-4 py-3 text-center font-medium text-slate-700 dark:text-slate-300">${dueMonthText}</td>
             <td class="px-4 py-3 text-center">
-                ${tblActions.stripHtml || ''}
                 <span class="${statusColor} ${activeWfTbl ? '' : animationClass} px-3 py-1.5 rounded-full text-[11px] font-bold border inline-block min-w-[120px] shadow-sm">${statusText}</span>
             </td>
             <td class="px-4 py-3 text-right">${masterActionBtn}</td>
@@ -4768,13 +4872,14 @@ window.toggleMaintSubRows = function(rowId, evt) {
       var count = window.countActiveMaintWorkflows();
       if (!count) {
         banner.classList.add('hidden');
-        return;
+      } else {
+        banner.classList.remove('hidden');
+        var txt = document.getElementById('maintWorkflowBannerText');
+        var sub = document.getElementById('maintWorkflowBannerSub');
+        if (txt) txt.textContent = 'กำลังบำรุงรักษา — ' + count + ' รายการ';
+        if (sub) sub.textContent = 'มี workflow ค้างอยู่ กดปุ่มเพื่อไปยังการ์ดที่กำลังดำเนินการ';
       }
-      banner.classList.remove('hidden');
-      var txt = document.getElementById('maintWorkflowBannerText');
-      var sub = document.getElementById('maintWorkflowBannerSub');
-      if (txt) txt.textContent = 'กำลังบำรุงรักษา — ' + count + ' รายการ';
-      if (sub) sub.textContent = 'มี workflow ค้างอยู่ กดปุ่มเพื่อไปยังการ์ดที่กำลังดำเนินการ';
+      if (typeof window.updateSidebarAlertBadges === 'function') window.updateSidebarAlertBadges();
     };
 
     window.scrollToFirstActiveMaintWorkflow = function() {
@@ -5298,9 +5403,7 @@ window.toggleMaintSubRows = function(rowId, evt) {
       var auth = opts.authBtnEnabled, layout = opts.layout || 'card';
       var activeWf = opts.activeWf || window.getActiveMaintWorkflow(key, visitNo, p0);
       var title = window.esc(window.getNationwideGroupTitle(p0) || p0.ProjectName || p0.Company || '');
-      var stripHtml = activeWf ? window.buildMaintInProgressStrip(activeWf, title, visitNo, totalExpectedRounds, layout) : '';
-      var badge = activeWf ? '<span class="text-[10px] px-2 py-0.5 bg-amber-200 text-amber-900 dark:bg-amber-800/60 dark:text-amber-100 rounded-lg font-black ml-2 border-2 border-amber-400 animate-pulse"><i class="fa-solid fa-screwdriver-wrench mr-0.5"></i>กำลังบำรุงรักษา ' + activeWf.CurrentStep + '/5</span>' : '';
-      var btns = { badge: badge, stripHtml: stripHtml, actionsHtml: '' };
+      var btns = { badge: '', stripHtml: '', actionsHtml: '' };
       if (!auth || opts.totalWashesDone >= totalExpectedRounds) return btns;
       var btnBase = layout === 'card'
         ? 'w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold shadow-sm transition min-h-[42px]'
@@ -6355,7 +6458,15 @@ let records = (allData.maintenance || []).filter(m => {
 
     window.getProjectByIdLocal = function(projectId) {
       var id = String(projectId || '').trim();
-      return (allData.projects || []).find(function(p) { return String(p.ID || p.id || '').trim() === id; });
+      if (!id) return null;
+      var raw = (allData.projects || []).find(function(p) {
+        return window.getProjectRecordId(p) === id;
+      });
+      if (raw) return raw;
+      return window.getUniqueProjects({ ignoreContractFilter: true }).find(function(p) {
+        if (window.getProjectRecordId(p) === id) return true;
+        return (p.SubIDs || []).some(function(s) { return String(s).trim() === id; });
+      }) || null;
     };
 
     window.getAccessibleProjectLicenses = function() {
@@ -6478,6 +6589,7 @@ let records = (allData.maintenance || []).filter(m => {
       badge.textContent = String(total);
       if (total > 0) badge.classList.remove('hidden');
       else badge.classList.add('hidden');
+      window.updateSidebarAlertBadges();
     };
 
     window.renderNotificationPanel = function() {
@@ -6539,17 +6651,256 @@ let records = (allData.maintenance || []).filter(m => {
       });
     }
 
-    window.updateLicenseAlertBadge = function() {
-      var badge = document.getElementById('licenseAlertBadge');
-      if (!badge) return;
-      if (!window.currentUser || window.currentUser.role === 'guest') {
-        badge.classList.add('hidden');
+    window.countMaintenanceAlerts = function() {
+      var fD = window.getGlobalDeptFilterValue();
+      var groups = {};
+      window.getUniqueProjects().forEach(function(p) {
+        var pDept = p.Department || p.department;
+        if (fD !== 'all' && pDept !== fD) return;
+        if (!window.canViewDept(pDept)) return;
+        var mainProj = window.getMainProjectName(p);
+        var pPhase = (p.Phase || p.phase || '').trim();
+        var isNationwide = window.getProjectCategory(p) === 'nationwide';
+        var groupKey = isNationwide ? 'NW::' + mainProj + '::' + pPhase : 'INDIV::' + p.ID;
+        if (!groups[groupKey]) {
+          groups[groupKey] = { key: groupKey, isNationwide: isNationwide, dept: pDept, projects: [] };
+        }
+        groups[groupKey].projects.push(p);
+      });
+      var count = 0;
+      Object.keys(groups).forEach(function(key) {
+        var g = groups[key];
+        var p0 = g.projects[0];
+        if (!p0) return;
+        var freqPerYear = parseInt(p0.MaintFreq || 2, 10);
+        var startD = p0.StartDate || p0.startDate;
+        var groupTargetIds = g.projects.map(function(p) { return String(p.ID); });
+        var pPhase = p0.Phase || p0.phase;
+        var relMaint = (allData.maintenance || []).filter(function(m) {
+          var mPID = String(m.ProjectID || '').trim();
+          var pID = String(p0.ID).trim();
+          return mPID === pID || mPID === key || mPID === ('INDIV::' + pID) || mPID === ('PHASE::' + String(pPhase || '').trim()) || groupTargetIds.indexOf(mPID) >= 0;
+        });
+        var cod = window.safeParseDate(startD);
+        var today = new Date();
+        var currentContractYearIndex = 0;
+        var currentMonthIndex = 0;
+        var washesThisYear = 0;
+        var totalWashesDone = 0;
+        var backlog = 0;
+        var currentYearStart = cod ? new Date(cod) : new Date();
+        var currentYearEnd = cod ? new Date(cod) : new Date();
+        if (cod && !isNaN(cod.getTime())) {
+          var monthsSinceStart = (today.getFullYear() - cod.getFullYear()) * 12 + (today.getMonth() - cod.getMonth());
+          if (today.getDate() < cod.getDate()) monthsSinceStart--;
+          if (monthsSinceStart < 0) monthsSinceStart = 0;
+          currentContractYearIndex = Math.floor(monthsSinceStart / 12);
+          currentMonthIndex = monthsSinceStart % 12;
+          currentYearStart.setFullYear(currentYearStart.getFullYear() + currentContractYearIndex);
+          currentYearEnd.setFullYear(currentYearStart.getFullYear() + 1);
+          currentYearEnd.setDate(currentYearEnd.getDate() - 1);
+          relMaint.forEach(function(m) {
+            var mDate = window.safeParseDate(m.ActualDate || m.ScheduledDate);
+            if (mDate && !isNaN(mDate.getTime())) {
+              totalWashesDone++;
+              if (mDate >= currentYearStart && mDate <= currentYearEnd) washesThisYear++;
+            }
+          });
+          backlog = Math.max(0, (currentContractYearIndex * freqPerYear) - (totalWashesDone - washesThisYear));
+        }
+        var requiredThisYear = freqPerYear + backlog;
+        var visitNo = totalWashesDone + 1;
+        var activeWf = window.getActiveMaintWorkflow(key, visitNo, p0);
+        var hasAlert = backlog > 0 ||
+          (currentMonthIndex >= 5 && washesThisYear === 0) ||
+          (currentMonthIndex >= 11 && washesThisYear < requiredThisYear) ||
+          !!activeWf;
+        if (hasAlert) count++;
+      });
+      return count;
+    };
+
+    window.countTrackingAlerts = function() {
+      if (typeof curDate === 'undefined' || !curDate) return 0;
+      var fD = window.getGlobalDeptFilterValue();
+      var y = curDate.getFullYear();
+      var m = curDate.getMonth();
+      var lD = new Date(y, m + 1, 0).getDate();
+      var count = 0;
+      var seen = {};
+      window.getUniqueProjects().forEach(function(p) {
+        var pDept = p.Department || p.department;
+        if (fD !== 'all' && pDept !== fD) return;
+        if (!window.canViewDept(pDept)) return;
+        var startD = p.StartDate || p.startDate;
+        if (!startD) return;
+        var sd = window.safeParseDate(startD);
+        if (!sd || isNaN(sd.getTime())) return;
+        var durationCyclesStr = p.DurationCycles || p.durationCycle || p.durationCycles || p.DurationCycle;
+        var durationYearsStr = p.DurationYears || p.durationYear || p.durationYears || p.DurationYear;
+        var cC = window.calculateBillingCycle(startD, new Date(y, m, 1), p.MeterDetails) + (allData.cycleOverrides[p.ID] || 0);
+        var tC = parseInt(durationCyclesStr, 10) || Math.round(parseFloat(durationYearsStr) * 12) || 0;
+        if (cC < 1 || cC > tC || !p.MeterDetails || !p.MeterDetails.length) return;
+        var needsAlert = false;
+        var dayGroups = {};
+        p.MeterDetails.forEach(function(md, idx) {
+          var rV = parseInt(md.ruleValue, 10) || 0;
+          var d = md.ruleType === 'first_day' ? 1 : lD - rV;
+          if (d > lD) d = lD;
+          if (d < 1) d = 1;
+          var subId = p.SubIDs[idx] || p.ID;
+          if (!dayGroups[d]) dayGroups[d] = { subIds: [] };
+          dayGroups[d].subIds.push(subId);
+        });
+        Object.keys(dayGroups).forEach(function(dKey) {
+          var dg = dayGroups[dKey];
+          var keyCheck = dg.subIds[0] + '_' + y + '-' + (m + 1);
+          var savedStat = allData.statuses[keyCheck];
+          var sV = window.resolveTrackingStatus(savedStat, y, m, parseInt(dKey, 10));
+          if (sV === 'รอนำส่ง' || sV === 'พบปัญหา') needsAlert = true;
+        });
+        if (!needsAlert) return;
+        var pk = String(p.ID) + '_' + y + '-' + (m + 1);
+        if (!seen[pk]) { seen[pk] = true; count++; }
+      });
+      return count;
+    };
+
+    window.countDashboardOmAlerts = function() {
+      var fD = window.getGlobalDeptFilterValue();
+      var today = new Date();
+      var selYear = today.getFullYear();
+      var selMonth = today.getMonth();
+      var groupedProjects = {};
+      window.getUniqueProjects().forEach(function(p) {
+        if (fD !== 'all' && (p.Department || p.department) !== fD) return;
+        if (!window.canViewDept(p.Department || p.department)) return;
+        var pPhase = (window.getProjectCategory(p) === 'nationwide') ? (p.Phase || p.phase) : '';
+        var normPhase = pPhase ? pPhase.replace(/\s+/g, '').toLowerCase() : '';
+        var groupKey = pPhase ? 'PHASE::' + normPhase : 'INDIV::' + p.ID;
+        if (!groupedProjects[groupKey]) {
+          groupedProjects[groupKey] = { key: groupKey, projects: [] };
+        }
+        groupedProjects[groupKey].projects.push(p);
+      });
+      var countOverdue = 0;
+      var countDue2M = 0;
+      Object.keys(groupedProjects).forEach(function(gKey) {
+        var g = groupedProjects[gKey];
+        var p0 = g.projects[0];
+        var fRawStr = String(window.getSafeVal(p0.MaintFreq || p0.maintFreq)).trim().toLowerCase();
+        var isFlex = fRawStr === '2 ครั้ง/ปี' || fRawStr === 'flex' || fRawStr === 'แบบยืดหยุ่น' || fRawStr === '6' || fRawStr === '6 เดือนครั้ง (2 ครั้ง/ปี)';
+        var f = isFlex ? 6 : (parseInt(fRawStr, 10) || 6);
+        var startD = p0.StartDate || p0.startDate;
+        var durationCyclesStr = p0.DurationCycles || p0.durationCycle || p0.durationCycles || p0.DurationCycle;
+        var durationYearsStr = p0.DurationYears || p0.durationYear || p0.durationYears || p0.DurationYear;
+        var tV = Math.floor((parseInt(durationCyclesStr, 10) || Math.round(parseFloat(durationYearsStr) * 12) || 0) / f);
+        var targetIds = g.projects.map(function(p) { return String(p.ID); });
+        var relMaint = (allData.maintenance || []).filter(function(m) {
+          var mPID = String(m.ProjectID || '').trim();
+          var pID = String(p0.ID).trim();
+          return mPID === pID || mPID === g.key || mPID === ('INDIV::' + pID) || targetIds.indexOf(mPID) >= 0;
+        });
+        var maxV = 0;
+        var latestMaintDate = null;
+        relMaint.forEach(function(m) {
+          var mDate = window.safeParseDate(m.ScheduledDate || m.ActualDate);
+          if (!mDate) return;
+          if (mDate.getFullYear() < selYear || (mDate.getFullYear() === selYear && mDate.getMonth() <= selMonth)) {
+            var v = parseInt(m.VisitNo, 10);
+            if (!isNaN(v) && v > maxV) { maxV = v; latestMaintDate = m.ScheduledDate || m.ActualDate; }
+          }
+        });
+        var nV = maxV + 1;
+        var nextDate = new Date();
+        var diffM = 0;
+        if (startD) {
+          var safeStart = window.safeParseDate(startD);
+          if (latestMaintDate && maxV > 0) {
+            var baseDate = window.safeParseDate(latestMaintDate);
+            if (baseDate && !isNaN(baseDate.getTime())) {
+              nextDate = new Date(baseDate);
+              nextDate.setMonth(nextDate.getMonth() + f);
+            } else if (safeStart) {
+              nextDate = new Date(safeStart);
+              nextDate.setMonth(nextDate.getMonth() + (nV * f));
+            }
+          } else if (safeStart && !isNaN(safeStart.getTime())) {
+            nextDate = new Date(safeStart);
+            nextDate.setMonth(nextDate.getMonth() + (nV * f));
+          }
+          if (safeStart && !isNaN(safeStart.getTime()) && !isNaN(nextDate.getTime())) {
+            diffM = (nextDate.getFullYear() - selYear) * 12 + (nextDate.getMonth() - selMonth);
+          }
+        }
+        if (nV <= tV) {
+          if (diffM < 0) countOverdue++;
+          else if (diffM >= 0 && diffM <= 2) countDue2M++;
+        }
+      });
+      return countOverdue + countDue2M;
+    };
+
+    window.computeSidebarAlertCounts = function() {
+      var licenseCount = 0;
+      if (window.currentUser && window.currentUser.role !== 'guest') {
+        licenseCount = window.countLicenseAlerts();
+      }
+      return {
+        dashboard: window.countDashboardOmAlerts(),
+        tracking: window.countTrackingAlerts(),
+        maintenance: window.countMaintenanceAlerts(),
+        licenseRenewal: licenseCount
+      };
+    };
+
+    window.updateSidebarAlertBadges = function() {
+      try {
+        window.ensureSidebarAlertBadges_();
+        var counts = window.computeSidebarAlertCounts();
+        window.setSidebarBadgeCount_('sidebarBadgeDash', counts.dashboard);
+        window.setSidebarBadgeCount_('sidebarBadgeTracking', counts.tracking);
+        window.setSidebarBadgeCount_('sidebarBadgeMaint', counts.maintenance);
+        window.setSidebarBadgeCount_('licenseAlertBadge', counts.licenseRenewal, true);
+      } catch (e) { /* ignore */ }
+    };
+
+    window._sidebarBadgeSpec_ = [
+      { tabId: 'tabDash', badgeId: 'sidebarBadgeDash' },
+      { tabId: 'tabTracking', badgeId: 'sidebarBadgeTracking' },
+      { tabId: 'tabMaint', badgeId: 'sidebarBadgeMaint' },
+      { tabId: 'tabLicenseRenewal', badgeId: 'licenseAlertBadge', authOnly: true }
+    ];
+
+    window.ensureSidebarAlertBadges_ = function() {
+      window._sidebarBadgeSpec_.forEach(function(spec) {
+        var btn = document.getElementById(spec.tabId);
+        if (!btn || document.getElementById(spec.badgeId)) return;
+        var badge = document.createElement('span');
+        badge.id = spec.badgeId;
+        badge.className = 'sidebar-alert-badge';
+        badge.textContent = '0';
+        btn.appendChild(badge);
+      });
+    };
+
+    window.setSidebarBadgeCount_ = function(badgeId, n, authOnly) {
+      if (authOnly && (!window.currentUser || window.currentUser.role === 'guest')) {
+        var hiddenBadge = document.getElementById(badgeId);
+        if (hiddenBadge) hiddenBadge.classList.remove('is-on');
         return;
       }
-      var n = window.countLicenseAlerts();
+      window.ensureSidebarAlertBadges_();
+      var badge = document.getElementById(badgeId);
+      if (!badge) return;
+      n = Number(n) || 0;
       badge.textContent = String(n);
-      if (n > 0) badge.classList.remove('hidden');
-      else badge.classList.add('hidden');
+      if (n > 0) badge.classList.add('is-on');
+      else badge.classList.remove('is-on');
+    };
+
+    window.updateLicenseAlertBadge = function() {
+      window.updateSidebarAlertBadges();
     };
 
     window.showLicenseAlertsIfNeeded = function() {
@@ -6669,24 +7020,89 @@ let records = (allData.maintenance || []).filter(m => {
       return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + (d.getFullYear() + 543);
     };
 
+    window.getProjectRecordId = function(p) {
+      if (!p) return '';
+      var id = String(p.ID || p.id || p.Id || p.rowId || p.RowId || '').trim();
+      if (id) return id;
+      var subs = p.SubIDs || [];
+      for (var i = 0; i < subs.length; i++) {
+        var sid = String(subs[i] || '').trim();
+        if (sid) return sid;
+      }
+      return '';
+    };
+
+    window.normalizeSearchText = function(s) {
+      var t = String(s || '');
+      try { if (t.normalize) t = t.normalize('NFC'); } catch (e) {}
+      return t.toLowerCase()
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        .replace(/\s+/g, '');
+    };
+
+    window.getLicenseProjectDisplayTitle = function(p) {
+      if (!p) return 'ไม่ระบุโครงการ';
+      var title = String(window.getInspectorProjectTitle(p) || '').trim();
+      if (title && title !== 'ไม่ระบุโครงการ') return title;
+      var fallbacks = [
+        p.MainProjectName, p.mainProjectName,
+        p.ProjectName, p.projectName,
+        p.ShortName, p.shortName,
+        p.Company, p.company,
+        p.PEARegion, p.peaRegion
+      ];
+      for (var i = 0; i < fallbacks.length; i++) {
+        var s = String(fallbacks[i] || '').trim();
+        if (s) return s;
+      }
+      var id = String(p.ID || p.id || '').trim();
+      return id || 'ไม่ระบุโครงการ';
+    };
+
     window.getProjectLicenseSearchBlob = function(p) {
       if (!p) return '';
-      var subIds = (p.SubIDs || []).join(' ');
-      return [
-        p.MainProjectName, p.mainProjectName,
-        p.ProjectName, p.projectName, p.ShortName, p.shortName,
-        p.Phase, p.phase,
-        p.Department, p.department,
-        p.ID, p.id,
-        subIds,
+      var parts = [];
+      var walk = function(v, depth) {
+        if (v == null || depth > 2) return;
+        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+          var s = String(v).trim();
+          if (s) parts.push(s);
+          return;
+        }
+        if (Array.isArray(v)) {
+          v.forEach(function(item) { walk(item, depth + 1); });
+          return;
+        }
+        if (typeof v === 'object') {
+          Object.keys(v).forEach(function(k) { walk(v[k], depth + 1); });
+        }
+      };
+      walk(p, 0);
+      parts.push(window.getLicenseProjectDisplayTitle(p));
+      parts.push(window.getInspectorProjectTitle(p));
+      return parts.join(' ').toLowerCase();
+    };
+
+    window.projectLicenseSearchMatch = function(p, query) {
+      var q = window.normalizeSearchText(query);
+      if (!q) return true;
+      var hay = window.normalizeSearchText(window.getProjectLicenseSearchBlob(p));
+      if (hay.indexOf(q) !== -1) return true;
+      return window.normalizeSearchText([
+        window.getLicenseProjectDisplayTitle(p),
         window.getInspectorProjectTitle(p),
-        p.Company, p.company
-      ].join(' ').toLowerCase().replace(/\s+/g, ' ');
+        p.Company, p.company, p.ProjectName, p.projectName,
+        p.MainProjectName, p.mainProjectName, p.ShortName, p.shortName,
+        p.Department, p.department, p.PEARegion, p.peaRegion,
+        p.Address, p.address, p.Phase, p.phase, p.MeterNo, p.meterNo,
+        window.getProjectRecordId(p),
+        (p.SubIDs || []).join(' ')
+      ].filter(Boolean).join(' ')).indexOf(q) !== -1;
     };
 
     window.getProjectLicenseSelectLabel = function(p) {
       if (!p) return '';
-      var title = window.getInspectorProjectTitle(p);
+      var title = window.getLicenseProjectDisplayTitle(p);
       var dept = String(p.Department || p.department || '').trim();
       var id = String(p.ID || p.id || '').trim();
       var parts = [title];
@@ -6695,41 +7111,117 @@ let records = (allData.maintenance || []).filter(m => {
       return parts.join(' · ');
     };
 
-    window.getAccessibleProjectsForLicense = function() {
-      return (allData.projects || []).filter(function(p) {
-        return window.checkAccess(p.Department || p.department);
+    window.getProjectLicenseSuggestSubtitle = function(p, showId) {
+      if (!p) return '';
+      var parts = [];
+      var dept = String(p.Department || p.department || '').trim();
+      if (dept) parts.push(dept);
+      var mainProj = String(p.MainProjectName || p.mainProjectName || '').trim();
+      var projName = String(p.ProjectName || p.projectName || p.ShortName || p.shortName || '').trim();
+      var title = window.getInspectorProjectTitle(p);
+      if (projName && projName !== mainProj && title.indexOf(projName) === -1) parts.push(projName);
+      var subIds = p.SubIDs || [];
+      if (subIds.length > 1) parts.push('มิเตอร์ ' + subIds.length + ' จุด');
+      else {
+        var meter = String(p.MeterNo || p.meterNo || '').trim();
+        if (meter) parts.push('มิ.' + meter);
+      }
+      if (showId) {
+        var id = String(p.ID || p.id || '').trim();
+        if (id) parts.push(id);
+      }
+      return parts.join(' · ');
+    };
+
+    window.getLicenseProjectDedupeKey = function(p) {
+      if (!p) return '';
+      var title = window.normalizeSearchText(window.getLicenseProjectDisplayTitle(p));
+      if (title) return title;
+      var rid = window.getProjectRecordId(p);
+      return rid ? ('id:' + rid) : '';
+    };
+
+    window.dedupeLicenseProjectsByDisplayTitle = function(list) {
+      var byTitle = {};
+      (list || []).forEach(function(p) {
+        var key = window.getLicenseProjectDedupeKey(p);
+        if (!key) return;
+        var prev = byTitle[key];
+        if (!prev) {
+          byTitle[key] = p;
+          return;
+        }
+        var prevCount = (prev.SubIDs || []).length || 1;
+        var nextCount = (p.SubIDs || []).length || 1;
+        if (nextCount > prevCount) byTitle[key] = p;
       });
+      return Object.keys(byTitle).map(function(k) { return byTitle[k]; });
+    };
+
+    window.getAccessibleProjectsForLicense = function() {
+      if (!window.currentUser || window.normalizeUserRole(window.currentUser.role) === 'guest') return [];
+      if (window.normalizeUserRole(window.currentUser.role) === 'viewer') return [];
+      var isAdmin = window.normalizeUserRole(window.currentUser.role) === 'admin';
+      var allow = function(p) {
+        if (!p) return false;
+        var dept = String(p.Department || p.department || '').trim();
+        if (!isAdmin && dept && !window.checkAccess(dept)) return false;
+        return true;
+      };
+      var list = (allData.projects || []).filter(allow);
+      if (!list.length) list = window.getUniqueProjects({ ignoreContractFilter: true }).filter(allow);
+      return window.dedupeLicenseProjectsByDisplayTitle(list).sort(function(a, b) {
+        return window.getLicenseProjectDisplayTitle(a).localeCompare(window.getLicenseProjectDisplayTitle(b), 'th');
+      });
+    };
+
+    window.ensurePlProjectSuggestBox = function() {
+      var box = document.getElementById('plProjectSuggestions');
+      if (box) return box;
+      var wrap = document.getElementById('plProjectSearchWrap');
+      if (!wrap) return null;
+      box = document.createElement('div');
+      box.id = 'plProjectSuggestions';
+      box.className = 'hidden mt-2 w-full max-h-60 overflow-y-auto rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg';
+      box.setAttribute('role', 'listbox');
+      box.setAttribute('aria-label', 'รายการโครงการ');
+      wrap.appendChild(box);
+      return box;
     };
 
     window.initPlProjectCombobox = function() {
-      if (!window._plProjectSuggestBound) {
-        window._plProjectSuggestBound = true;
-        document.addEventListener('click', function(e) {
-          var wrap = document.getElementById('plProjectSearchWrap');
-          if (wrap && !wrap.contains(e.target)) window.hidePlProjectSuggestions();
-        });
-      }
-      window._plProjectListAll = window.getAccessibleProjectsForLicense().slice().sort(function(a, b) {
-        return window.getInspectorProjectTitle(a).localeCompare(window.getInspectorProjectTitle(b), 'th');
-      });
+      window.ensurePlProjectSuggestBox();
+    };
+
+    window.refreshPlProjectListAll = function(force) {
+      if (force) window._uniqueProjectsCacheKey = null;
+      window._plProjectListAll = window.getAccessibleProjectsForLicense();
     };
 
     window.getPlProjectSuggestions = function(q, limit) {
-      var query = String(q || '').trim().toLowerCase();
-      if (!query) return [];
-      limit = limit || 12;
+      var pool = window._plProjectListAll || [];
+      if (!pool.length) {
+        window.refreshPlProjectListAll(true);
+        pool = window._plProjectListAll || [];
+      }
+      var query = String(q || '').trim();
+      limit = limit || 500;
+      if (!query) return pool.slice(0, limit);
       var results = [];
-      (window._plProjectListAll || []).forEach(function(p) {
+      pool.forEach(function(p) {
         if (results.length >= limit) return;
-        if (window.getProjectLicenseSearchBlob(p).indexOf(query) === -1) return;
-        results.push(p);
+        if (window.projectLicenseSearchMatch(p, query)) results.push(p);
       });
       return results;
     };
 
     window.hidePlProjectSuggestions = function() {
       var box = document.getElementById('plProjectSuggestions');
-      if (box) { box.classList.add('hidden'); box.innerHTML = ''; }
+      if (box) {
+        box.classList.add('hidden');
+        box.style.display = '';
+        box.innerHTML = '';
+      }
       window._plProjectSuggestIndex = -1;
       window._plProjectSuggestItems = [];
     };
@@ -6744,23 +7236,39 @@ let records = (allData.maintenance || []).filter(m => {
     };
 
     window.renderPlProjectSuggestions = function(q) {
-      var box = document.getElementById('plProjectSuggestions');
+      var box = window.ensurePlProjectSuggestBox();
       if (!box) return;
-      var items = window.getPlProjectSuggestions(q, 12);
+      var modal = document.getElementById('projectLicenseModal');
+      if (modal && modal.classList.contains('hidden')) return;
+      if (!window._plProjectListAll || !window._plProjectListAll.length) {
+        window.refreshPlProjectListAll(true);
+      }
+      var items = window.getPlProjectSuggestions(q, 500);
+      var pool = window._plProjectListAll || [];
       window._plProjectSuggestItems = items;
       window._plProjectSuggestIndex = -1;
+      var hasQuery = String(q || '').trim().length > 0;
       if (!items.length) {
-        box.innerHTML = '<div class="px-3 py-2.5 text-xs text-slate-400 italic">ไม่พบโครงการที่ตรงกับคำค้นหา</div>';
-        box.classList.remove('hidden');
-        return;
+        var msg = !pool.length
+          ? 'ไม่มีโครงการที่คุณมีสิทธิ์เพิ่มใบอนุญาต'
+          : (hasQuery ? 'ไม่พบโครงการที่ตรงกับ "' + window.esc(String(q || '').trim()) + '"' : 'ไม่มีโครงการในระบบ');
+        box.innerHTML = '<div class="px-3 py-2.5 text-xs text-slate-500 dark:text-slate-300">' + msg + '</div>';
+      } else {
+        var hdr = '';
+        if (hasQuery && pool.length > items.length) {
+          hdr = '<div class="px-3 py-1.5 text-[10px] text-slate-400 border-b border-slate-100 dark:border-slate-700">พบ ' + items.length + ' จาก ' + pool.length + ' โครงการ</div>';
+        } else if (!hasQuery) {
+          hdr = '<div class="px-3 py-1.5 text-[10px] text-slate-400 border-b border-slate-100 dark:border-slate-700">ทั้งหมด ' + items.length + ' โครงการ — พิมพ์เพื่อค้นหา</div>';
+        }
+        box.innerHTML = hdr + items.map(function(p, i) {
+          var label = window.getLicenseProjectDisplayTitle(p);
+          var sub = window.getProjectLicenseSuggestSubtitle(p, true);
+          var subHtml = sub ? '<span class="block text-[10px] text-slate-400 mt-0.5">' + window.esc(sub) + '</span>' : '';
+          return '<button type="button" role="option" data-idx="' + i + '" onmousedown="event.preventDefault()" onclick="window.selectPlProjectSuggestion(' + i + ')" class="map-place-suggest-item w-full text-left px-3 py-2.5 text-sm hover:bg-royal-50 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-b-0 transition"><span class="font-medium text-slate-700 dark:text-slate-200">' + window.esc(label) + '</span>' + subHtml + '</button>';
+        }).join('');
       }
-      box.innerHTML = items.map(function(p, i) {
-        var label = window.getInspectorProjectTitle(p);
-        var dept = String(p.Department || p.department || '').trim();
-        var sub = dept ? '<span class="block text-[10px] text-slate-400 mt-0.5">' + window.esc(dept) + '</span>' : '';
-        return '<button type="button" role="option" data-idx="' + i + '" onclick="window.selectPlProjectSuggestion(' + i + ')" class="map-place-suggest-item w-full text-left px-3 py-2.5 text-sm hover:bg-royal-50 dark:hover:bg-slate-700 border-b border-slate-100 dark:border-slate-700 last:border-b-0 transition"><span class="font-medium text-slate-700 dark:text-slate-200">' + window.esc(label) + '</span>' + sub + '</button>';
-      }).join('');
       box.classList.remove('hidden');
+      box.style.display = 'block';
     };
 
     window.onPlProjectSearchInput = function() {
@@ -6770,20 +7278,15 @@ let records = (allData.maintenance || []).filter(m => {
       var curId = idEl ? String(idEl.value || '').trim() : '';
       if (curId) {
         var cur = window.getProjectByIdLocal(curId);
-        var curLabel = cur ? window.getInspectorProjectTitle(cur) : '';
+        var curLabel = cur ? window.getLicenseProjectDisplayTitle(cur) : '';
         if (q !== curLabel) idEl.value = '';
-      }
-      if (!q) {
-        window.hidePlProjectSuggestions();
-        return;
       }
       window.renderPlProjectSuggestions(q);
     };
 
     window.onPlProjectSearchFocus = function() {
       var qEl = document.getElementById('plProjectSearch');
-      var q = qEl ? String(qEl.value || '').trim() : '';
-      if (q) window.renderPlProjectSuggestions(q);
+      window.renderPlProjectSuggestions(qEl ? qEl.value : '');
     };
 
     window.onPlProjectSearchKeydown = function(ev) {
@@ -6836,29 +7339,29 @@ let records = (allData.maintenance || []).filter(m => {
       var idEl = document.getElementById('plProjectId');
       if (qEl) qEl.value = '';
       if (idEl) idEl.value = '';
-      window.hidePlProjectSuggestions();
     };
 
     window.setPlProjectSelection = function(p) {
       var qEl = document.getElementById('plProjectSearch');
       var idEl = document.getElementById('plProjectId');
       if (!qEl || !idEl) return;
-      var id = p ? String(p.ID || p.id || '').trim() : '';
+      var id = p ? window.getProjectRecordId(p) : '';
       idEl.value = id;
-      qEl.value = p ? window.getInspectorProjectTitle(p) : '';
+      qEl.value = p ? window.getLicenseProjectDisplayTitle(p) : '';
     };
 
     window.resolvePlProjectFromCombobox = function() {
       var idEl = document.getElementById('plProjectId');
-      if (!idEl) return null;
-      var id = String(idEl.value || '').trim();
+      var id = idEl ? String(idEl.value || '').trim() : '';
       if (!id) return null;
       var p = window.getProjectByIdLocal(id);
       if (!p) return null;
-      if (!window.checkAccess(p.Department || p.department)) return null;
+      var dept = String(p.Department || p.department || '').trim();
+      var isAdmin = window.currentUser && window.normalizeUserRole(window.currentUser.role) === 'admin';
+      if (!isAdmin && !window.checkAccess(dept)) return null;
       var qEl = document.getElementById('plProjectSearch');
-      var label = window.getInspectorProjectTitle(p);
-      if (qEl && String(qEl.value || '').trim() !== label) return null;
+      var label = window.getLicenseProjectDisplayTitle(p);
+      if (qEl && String(qEl.value || '').trim() && String(qEl.value || '').trim() !== label) return null;
       return p;
     };
 
@@ -6910,15 +7413,11 @@ let records = (allData.maintenance || []).filter(m => {
         var el = document.getElementById(id);
         if (!el) return;
         if (el._flatpickr) el._flatpickr.destroy();
-        var config = {
+        var config = Object.assign({
           altInput: true, altFormat: 'TH', dateFormat: 'Y-m-d',
-          onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
           onChange: function() { window.updatePlDurationDisplay(); },
-          formatDate: function(date, format) {
-            if (format === 'TH') return String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + (date.getFullYear() + 543);
-            return flatpickr.formatDate(date, format);
-          }
-        };
+          formatDate: window._fpFormatDateTH
+        }, window._fpThaiDateHooks);
         if (flatpickr.l10ns && flatpickr.l10ns.th) config.locale = flatpickr.l10ns.th;
         flatpickr(el, config);
       });
@@ -6931,7 +7430,7 @@ let records = (allData.maintenance || []).filter(m => {
       (allData.licenseTypes || []).forEach(function(t) {
         var opt = document.createElement('option');
         opt.value = String(t.ID);
-        opt.textContent = String(t.Name) + ' (แจ้ง ' + (t.AlertDays || 90) + ' วัน)';
+        opt.textContent = String(t.Name) + ' (แจ้งล่วงหน้า ' + (t.AlertDays || 90) + ' วัน)';
         tSel.appendChild(opt);
       });
     };
@@ -6944,13 +7443,17 @@ let records = (allData.maintenance || []).filter(m => {
       var tid = tSel.value;
       var t = window.getLicenseTypeMap()[tid];
       var isOther = t && (t.IsOther === true || String(t.IsOther).toLowerCase() === 'true');
-      var isAdmin = window.currentUser && window.normalizeUserRole(window.currentUser.role) === 'admin';
       if (customG) customG.classList.toggle('hidden', !isOther);
-      if (alertG) alertG.classList.toggle('hidden', !isOther && !isAdmin);
+      if (alertG) alertG.classList.toggle('hidden', !isOther);
     };
 
     window.openProjectLicenseModal = function(editId, projectId) {
       if (!window.currentUser || window.currentUser.role === 'guest') return;
+      var role = window.normalizeUserRole(window.currentUser.role);
+      if (role === 'viewer') {
+        Swal.fire('ไม่มีสิทธิ์', 'เฉพาะ Editor หรือ Admin เท่านั้นที่เพิ่ม/แก้ไขใบอนุญาต', 'warning');
+        return;
+      }
       window.populateProjectLicenseSelects();
       window.initPlProjectCombobox();
       window.initPlLicenseDatePickers();
@@ -6992,7 +7495,14 @@ let records = (allData.maintenance || []).filter(m => {
       window.toggleProjectLicenseCustomType();
       window.updatePlDurationDisplay();
       window.showModal('projectLicenseModal');
-      setTimeout(window.refreshLicenseCtxFiles, 50);
+      window.refreshPlProjectListAll(true);
+      window.renderPlProjectSuggestions('');
+      setTimeout(function() {
+        var plQ = document.getElementById('plProjectSearch');
+        if (plQ) plQ.focus();
+        window.renderPlProjectSuggestions(plQ ? plQ.value || '' : '');
+        window.refreshLicenseCtxFiles();
+      }, 80);
     };
 
     window.handleSaveProjectLicense = function(e) {
@@ -7389,14 +7899,10 @@ window.addSiteRow = function(containerId, data = null) {
     `; 
     
     document.getElementById(containerId).appendChild(div); 
-    let dynFpConfig = { 
+    let dynFpConfig = Object.assign({
         altInput: true, altFormat: "TH", dateFormat: "Y-m-d",
-        onReady: window._adjustYearDisplay, onYearChange: window._adjustYearDisplay, onMonthChange: window._adjustYearDisplay,
-        formatDate: function(date, format, locale) {
-            if (format === "TH") return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear() + 543}`;
-            return flatpickr.formatDate(date, format);
-        }
-    };
+        formatDate: window._fpFormatDateTH
+    }, window._fpThaiDateHooks);
     if (flatpickr && flatpickr.l10ns && flatpickr.l10ns.th) dynFpConfig.locale = flatpickr.l10ns.th;
     flatpickr('#' + siteId + '_date', dynFpConfig);
 
@@ -7701,7 +8207,11 @@ window.handleEditProject = async function(e) {
       google.script.run.withSuccessHandler((res) => {
         Swal.close();
         if (res && res.status === 'error') { Swal.fire('Error', res.message, 'error'); return; }
-        window.showToast('อัปเดตสำเร็จ'); window.closeModal('detailModal'); window.fetchData();
+        window.showToast('อัปเดตสำเร็จ'); window.closeModal('detailModal');
+        var patchIds = String(editSubIDs || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+        var localPatch = Object.assign({}, data);
+        delete localPatch.userName;
+        window._patchProjectsByIds(patchIds, localPatch);
       }).withFailureHandler((err) => {
         Swal.close();
         Swal.fire('ข้อผิดพลาด', (err && err.message) || 'อัปเดตไม่สำเร็จ', 'error');
